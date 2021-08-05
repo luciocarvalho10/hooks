@@ -1,15 +1,55 @@
-import React from 'react'
-import PageTitle from '../../components/layout/PageTitle'
+import React, { useEffect, useState } from "react"
+import PageTitle from "../../components/layout/PageTitle"
+import SectionTitle from "../../components/layout/SectionTitle"
 
-const UseEffect = (props) => {
-    return (
-        <div className="UseEffect">
-            <PageTitle
-                title="Hook UseEffect"
-                subtitle="Permite executar efeitos colaterais em componentes funcionais!"
-            />
+function fat(n) {
+  const num = parseInt(n)
+  if (num < 0) return -1
+  if (num === 0) return 1
+  return fat(num - 1) * num
+}
+
+const UseEffect = props => {
+  const [number, setNumber] = useState(1)
+  const [fatorial, setFatorial] = useState(1)
+
+  useEffect(() => setFatorial(fat(number)), [number])
+
+  const [status, setStatus] = useState("Ímpar")
+  useEffect(() => setStatus(number % 2 === 0 ? "Par" : "Ímpar"), [number])
+
+  return (
+    <div className="UseEffect">
+      <PageTitle
+        title="Hook UseEffect"
+        subtitle="Permite executar efeitos colaterais em componentes funcionais!"
+      />
+      <SectionTitle title="Exercício #01" />
+      <div className="center">
+        <div>
+          <span className="text">Fatorial: </span>
+          <span className="text red">
+            {fatorial === -1 ? "Não Existe" : fatorial}
+          </span>
         </div>
-    )
+      </div>
+      <div className="center">
+        <input
+          type="number"
+          className="input"
+          value={number}
+          onChange={e => setNumber(e.target.value)}
+        />
+      </div>
+      <SectionTitle title="Exercício #02" />
+      <div className="center">
+        <div>
+          <span className="text">O número é: </span>
+          <span className="text red">{status}</span>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default UseEffect
